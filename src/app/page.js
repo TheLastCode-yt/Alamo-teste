@@ -84,7 +84,7 @@ export default function Home() {
             </Button>
 
             <div className="flex gap-2">
-              <Button variant="ghost" size="sm">
+              <Button variant="outline" size="sm">
                 <Image
                   width={17}
                   height={15}
@@ -92,7 +92,7 @@ export default function Home() {
                   src="/icons/inbox.svg"
                 />
               </Button>
-              <Button variant="ghost" size="sm">
+              <Button variant="outline" size="sm">
                 <Image
                   width={15}
                   height={15}
@@ -100,7 +100,7 @@ export default function Home() {
                   src="/icons/circle-alert.svg"
                 />
               </Button>
-              <Button variant="ghost" size="sm">
+              <Button variant="outline" size="sm">
                 <Image
                   width={16}
                   height={18}
