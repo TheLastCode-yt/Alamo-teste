@@ -15,12 +15,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash2, Clock } from 'lucide-react';
 
 export function NewRoutineModal() {
   const { modals, closeModal } = useModal();
   const { addRoutine } = useRoutine();
   const [formData, setFormData] = useState({
+    time: '',
     title: '',
     solutions: [{ name: '', quantity: '' }],
     observations: '',
@@ -62,11 +63,17 @@ export function NewRoutineModal() {
   const handleSubmit = e => {
     e.preventDefault();
 
-    // Add routine using context
-    addRoutine(formData);
+    // Add routine with current timestamp and user-defined time
+    const routineData = {
+      ...formData,
+      createdAt: new Date().toISOString(), // Para ordenação
+    };
+
+    addRoutine(routineData);
 
     // Reset form
     setFormData({
+      time: '',
       title: '',
       solutions: [{ name: '', quantity: '' }],
       observations: '',
@@ -80,6 +87,7 @@ export function NewRoutineModal() {
     closeModal('newRoutine');
     // Reset form when closing
     setFormData({
+      time: '',
       title: '',
       solutions: [{ name: '', quantity: '' }],
       observations: '',
@@ -88,38 +96,49 @@ export function NewRoutineModal() {
 
   return (
     <Dialog open={modals.newRoutine} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Create New Routine</DialogTitle>
+          <DialogTitle>Criar Nova Rotina</DialogTitle>
           <DialogDescription>
-            Add a new routine to your collection. Fill in the details below.
+            Adicionar uma nova rotina para sua coleção. Preencha os detalhes
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="title">Routine Title</Label>
+            <Label htmlFor="time" className="flex items-center gap-2">
+              <Clock className="h-4 w-4" />
+              Horário
+            </Label>
+            <Input
+              id="time"
+              name="time"
+              type="time"
+              value={formData.time}
+              onChange={handleInputChange}
+              className="w-full"
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="title">Título da Rotina</Label>
             <Input
               id="title"
               name="title"
               value={formData.title}
               onChange={handleInputChange}
-              placeholder="Enter routine title"
+              placeholder="Título da Rotina"
               required
             />
           </div>
 
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label>Solutions</Label>
-              <Button
-                type="button"
-                onClick={addSolution}
-                size="sm"
-                variant="outline"
-              >
+              <Label>Soluções</Label>
+              <Button type="button" onClick={addSolution} size="sm">
                 <Plus className="h-4 w-4 mr-1" />
-                Add Solution
+                Add Solução
               </Button>
             </div>
 
@@ -127,7 +146,7 @@ export function NewRoutineModal() {
               <div key={index} className="flex gap-2 items-end">
                 <div className="flex-1">
                   <Input
-                    placeholder="Solution name"
+                    placeholder="Solução Nome"
                     value={solution.name}
                     onChange={e =>
                       handleSolutionChange(index, 'name', e.target.value)
@@ -137,7 +156,7 @@ export function NewRoutineModal() {
                 </div>
                 <div className="flex-1">
                   <Input
-                    placeholder="Quantity (e.g., CHO:26G)"
+                    placeholder="Quantidade (e.g., CHO:26G)"
                     value={solution.quantity}
                     onChange={e =>
                       handleSolutionChange(index, 'quantity', e.target.value)
@@ -160,22 +179,22 @@ export function NewRoutineModal() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="observations">Observations</Label>
+            <Label htmlFor="observations">Observações</Label>
             <Textarea
               id="observations"
               name="observations"
               value={formData.observations}
               onChange={handleInputChange}
-              placeholder="Add any observations or notes..."
+              placeholder="Adicionar observações..."
               rows={3}
             />
           </div>
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={handleClose}>
-              Cancel
+              Cancelar
             </Button>
-            <Button type="submit">Create Routine</Button>
+            <Button type="submit">Criar Routina</Button>
           </DialogFooter>
         </form>
       </DialogContent>
