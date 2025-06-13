@@ -58,7 +58,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar className="sm:pt-9">
-      <SidebarContent className="px-4">
+      <SidebarContent className="px-4 sm:pt-0 pt-4">
         {/* Profile Section */}
         <SidebarGroup>
           <SidebarGroupContent className="p-0">
