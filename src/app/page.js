@@ -190,7 +190,7 @@ export default function Home() {
             </div>
           ) : (
             <ScrollArea className="h-[500px] w-full rounded-md border">
-              <div className="space-y-4 pr-4">
+              <div className="space-y-1 pr-4">
                 {sortedRoutines.map((routine, index) => (
                   <div
                     key={routine.id}
