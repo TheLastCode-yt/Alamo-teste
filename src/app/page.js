@@ -61,7 +61,7 @@ export default function Home() {
   };
 
   return (
-    <section className="flex-1 p-6">
+    <section className="flex-1 p-4 sm:p-6">
       <div className="container mx-auto max-w-6xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8">
@@ -117,7 +117,7 @@ export default function Home() {
             Gestão de rotinas de laboratório
           </h2>
 
-          <Button onClick={() => openModal('newRoutine')}>
+          <Button onClick={() => openModal('newRoutine')} className={'w-fit'}>
             <Plus className="h-4 w-4 mr-2" />
             Adicionar Rotina
           </Button>
@@ -131,7 +131,7 @@ export default function Home() {
               placeholder="Buscar rotinas..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              className="pl-10"
+              className="pl-10  w-[80%] sm:w-full"
             />
           </div>
 
@@ -189,26 +189,27 @@ export default function Home() {
               </Button>
             </div>
           ) : (
-            <ScrollArea className="h-[500px] w-full rounded-md border">
-              <div className="space-y-1 pr-4">
+            <ScrollArea className="h-[500px] rounded-md border">
+              <div className="space-y-1 sm:pr-4">
                 {sortedRoutines.map((routine, index) => (
                   <div
                     key={routine.id}
-                    className={`p-6 rounded-lg transition-colors hover:shadow-md text-[#414552]
+                    className={`p-4 sm:p-6 rounded-lg transition-colors hover:shadow-md text-[#414552]
                    ${index % 2 === 0 ? 'bg-white' : 'bg-[#F5F6F8]'}`}
                   >
                     {/* Routine Header with Time and Title */}
-                    <div className="flex items-center gap-4 mb-[6px]">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-[6px]">
                       {routine.time && (
                         <div className="flex items-center gap-2">
                           <span className="font-mono text-sm font-medium">
                             {routine.time} -
                           </span>
+                          <h3 className="text-xl font-semibold flex-1">
+                            {routine.title}
+                          </h3>
                         </div>
                       )}
-                      <h3 className="text-xl font-semibold flex-1">
-                        {routine.title}
-                      </h3>
+
                       {routine.createdAt && (
                         <span className="text-xs">
                           {new Date(routine.createdAt).toLocaleDateString(
